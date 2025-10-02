@@ -214,7 +214,7 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
 
   movePlayer: (direction: Direction) => {
     const state = get();
-    const { playerPos, overworldMap, netherMap, mapSize, biome } = state;
+    const { playerPos, overworldMap, netherMap, mapSize, biome, arrows } = state;
     const map = biome === Biome.OVERWORLD ? overworldMap : netherMap;
     
     const directions = [
@@ -244,8 +244,20 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
           if (overworldMap[playerPos.x][playerPos.y] === CellType.PLAYER) {
             overworldMap[playerPos.x][playerPos.y] = state.playerUnderlyingCell as CellType;
           }
-          // 记录新位置的底层方块
-          newPlayerUnderlyingCell = overworldMap[newX][newY];
+          
+          // 检查新位置是否有箭矢，如果有则清除
+          const arrowIndex = arrows.findIndex(a => a.x === newX && a.y === newY);
+          if (arrowIndex !== -1) {
+            // 先记录箭矢的底层方块
+            const arrow = arrows[arrowIndex];
+            newPlayerUnderlyingCell = arrow.underlyingCell ?? CellType.EMPTY;
+            // 然后移除箭矢
+            arrows.splice(arrowIndex, 1);
+          } else {
+            // 记录新位置的底层方块
+            newPlayerUnderlyingCell = overworldMap[newX][newY];
+          }
+          
           // 放置玩家
           overworldMap[newX][newY] = CellType.PLAYER;
         } else {
@@ -264,6 +276,7 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
           playerDirection: direction,
           step: state.step + 1,
           playerUnderlyingCell: newPlayerUnderlyingCell,
+          arrows,
           overworldMap,
           netherMap,
         });
@@ -860,7 +873,7 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
 
   moveMobs: () => {
     const state = get();
-    const { playerPos, overworldMap, netherMap, zombies, skeletons, lavaZombies, biome } = state;
+    const { playerPos, overworldMap, netherMap, zombies, skeletons, lavaZombies, biome, arrows } = state;
     
     if (biome === Biome.OVERWORLD) {
       // Move zombies (with randomness to prevent all moving at once)
@@ -904,8 +917,20 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
           } else if (oldX !== zombie.x || oldY !== zombie.y) {
             // 成功移动：恢复旧位置的底层方块
             overworldMap[oldX][oldY] = (zombie.underlyingCell as CellType) ?? CellType.EMPTY;
-            // 记录新位置的底层方块
-            zombie.underlyingCell = overworldMap[zombie.x][zombie.y];
+            
+            // 检查新位置是否有箭矢，如果有则清除
+            const arrowIndex = arrows.findIndex(a => a.x === zombie.x && a.y === zombie.y);
+            if (arrowIndex !== -1) {
+              // 先记录箭矢的底层方块
+              const arrow = arrows[arrowIndex];
+              zombie.underlyingCell = arrow.underlyingCell ?? CellType.EMPTY;
+              // 然后移除箭矢
+              arrows.splice(arrowIndex, 1);
+            } else {
+              // 记录新位置的底层方块
+              zombie.underlyingCell = overworldMap[zombie.x][zombie.y];
+            }
+            
             // 放置僵尸
             overworldMap[zombie.x][zombie.y] = CellType.ZOMBIE;
           }
@@ -957,14 +982,26 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
         } else if (oldX !== skeleton.x || oldY !== skeleton.y) {
           // 成功移动：恢复旧位置的底层方块
           overworldMap[oldX][oldY] = (skeleton.underlyingCell as CellType) ?? CellType.EMPTY;
-          // 记录新位置的底层方块
-          skeleton.underlyingCell = overworldMap[skeleton.x][skeleton.y];
+          
+          // 检查新位置是否有箭矢，如果有则清除
+          const arrowIndex = arrows.findIndex(a => a.x === skeleton.x && a.y === skeleton.y);
+          if (arrowIndex !== -1) {
+            // 先记录箭矢的底层方块
+            const arrow = arrows[arrowIndex];
+            skeleton.underlyingCell = arrow.underlyingCell ?? CellType.EMPTY;
+            // 然后移除箭矢
+            arrows.splice(arrowIndex, 1);
+          } else {
+            // 记录新位置的底层方块
+            skeleton.underlyingCell = overworldMap[skeleton.x][skeleton.y];
+          }
+          
           // 放置骷髅
           overworldMap[skeleton.x][skeleton.y] = CellType.SKELETON;
         }
       });
       
-      set({ zombies, skeletons, overworldMap });
+      set({ zombies, skeletons, arrows, overworldMap });
     } else {
       // Move lava zombies in nether
       lavaZombies.forEach((lavaZombie) => {
@@ -1008,7 +1045,7 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
 
   checkMobAttacks: () => {
     const state = get();
-    const { playerPos, zombies, lavaZombies, arrows, biome, hp } = state;
+    const { playerPos, zombies, lavaZombies, biome, hp } = state;
     const directions = [
       { x: 0, y: 1 },
       { x: 1, y: 0 },
@@ -1030,13 +1067,7 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
         }
       });
       
-      // Check arrow hits
-      arrows.forEach((arrow) => {
-        if (playerPos.x === arrow.x && playerPos.y === arrow.y) {
-          newHp -= 1;
-          get().addMessage(`被箭矢击中！生命值 -1`, 'error');
-        }
-      });
+      // 箭矢伤害已在 moveArrows() 中处理
     } else {
       // Check lava zombie attacks
       lavaZombies.forEach((lavaZombie) => {
@@ -1064,7 +1095,7 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
 
   moveArrows: () => {
     const state = get();
-    const { arrows, overworldMap, mapSize, playerPos } = state;
+    const { arrows, overworldMap, mapSize, playerPos, zombies, skeletons } = state;
     const directions = [
       { x: 0, y: 1 },  // EAST
       { x: 1, y: 0 },  // SOUTH
@@ -1073,11 +1104,13 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
     ];
     
     const newArrows = arrows.filter(arrow => {
-      if (arrow.x === 0 || arrow.y === 0) return false;
-      
-      // 恢复旧位置的底层方块
-      if (overworldMap[arrow.x][arrow.y] === CellType.ARROW) {
-        overworldMap[arrow.x][arrow.y] = (arrow.underlyingCell as CellType) ?? CellType.EMPTY;
+      // 检查箭矢是否还在地图内
+      if (arrow.x === 0 || arrow.y === 0 || arrow.x > mapSize || arrow.y > mapSize) {
+        // 清理旧位置
+        if (overworldMap[arrow.x]?.[arrow.y] === CellType.ARROW) {
+          overworldMap[arrow.x][arrow.y] = (arrow.underlyingCell as CellType) ?? CellType.EMPTY;
+        }
+        return false;
       }
       
       // Move arrow
@@ -1085,18 +1118,97 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
       const newX = arrow.x + dir.x;
       const newY = arrow.y + dir.y;
       
-      // Check bounds and obstacles
+      // Check bounds
       if (newX < 1 || newX > mapSize || newY < 1 || newY > mapSize) {
+        // 恢复旧位置的底层方块
+        if (overworldMap[arrow.x][arrow.y] === CellType.ARROW) {
+          overworldMap[arrow.x][arrow.y] = (arrow.underlyingCell as CellType) ?? CellType.EMPTY;
+        }
         return false;
       }
       
-      if (overworldMap[newX][newY] >= CellType.WALL_1 && overworldMap[newX][newY] < CellType.CHEST) {
-        return false;
-      }
+      // Check target cell before moving
+      const targetCell = overworldMap[newX][newY];
       
       // Check if hits player
       if (newX === playerPos.x && newY === playerPos.y) {
+        // 恢复旧位置的底层方块
+        if (overworldMap[arrow.x][arrow.y] === CellType.ARROW) {
+          overworldMap[arrow.x][arrow.y] = (arrow.underlyingCell as CellType) ?? CellType.EMPTY;
+        }
+        // 造成伤害
+        const currentHp = get().hp;
+        const newHp = currentHp - 1;
+        set({ hp: newHp });
+        get().addMessage(`被箭矢击中！生命值 -1`, 'error');
+        
+        // 检查是否死亡
+        if (newHp <= 0) {
+          set({
+            isGameOver: true,
+            deathMessage: '你被箭矢击杀了！',
+            currentScreen: 'death'
+          });
+        }
         return false;
+      }
+      
+      // Check if hits zombies
+      const hitZombie = zombies.some(z => z.x === newX && z.y === newY);
+      if (hitZombie) {
+        // 恢复旧位置的底层方块
+        if (overworldMap[arrow.x][arrow.y] === CellType.ARROW) {
+          overworldMap[arrow.x][arrow.y] = (arrow.underlyingCell as CellType) ?? CellType.EMPTY;
+        }
+        return false;
+      }
+      
+      // Check if hits skeletons
+      const hitSkeleton = skeletons.some(s => s.x === newX && s.y === newY);
+      if (hitSkeleton) {
+        // 恢复旧位置的底层方块
+        if (overworldMap[arrow.x][arrow.y] === CellType.ARROW) {
+          overworldMap[arrow.x][arrow.y] = (arrow.underlyingCell as CellType) ?? CellType.EMPTY;
+        }
+        return false;
+      }
+      
+      // Check obstacles (墙壁和箱子)
+      if (targetCell >= CellType.WALL_1 && targetCell <= CellType.CHEST) {
+        // 恢复旧位置的底层方块
+        if (overworldMap[arrow.x][arrow.y] === CellType.ARROW) {
+          overworldMap[arrow.x][arrow.y] = (arrow.underlyingCell as CellType) ?? CellType.EMPTY;
+        }
+        return false;
+      }
+      
+      // Check if hits another arrow (避免箭矢重叠滞留)
+      if (targetCell === CellType.ARROW) {
+        // 恢复旧位置的底层方块
+        if (overworldMap[arrow.x][arrow.y] === CellType.ARROW) {
+          overworldMap[arrow.x][arrow.y] = (arrow.underlyingCell as CellType) ?? CellType.EMPTY;
+        }
+        return false;
+      }
+      
+      // Check door - arrows should pass through doors but not destroy them
+      if (targetCell === CellType.DOOR) {
+        // 允许箭矢穿过门，但保持门的存在
+        // 恢复旧位置的底层方块
+        if (overworldMap[arrow.x][arrow.y] === CellType.ARROW) {
+          overworldMap[arrow.x][arrow.y] = (arrow.underlyingCell as CellType) ?? CellType.EMPTY;
+        }
+        // 记录新位置的底层方块（门）
+        arrow.underlyingCell = CellType.DOOR;
+        arrow.x = newX;
+        arrow.y = newY;
+        overworldMap[newX][newY] = CellType.ARROW;
+        return true;
+      }
+      
+      // Normal movement - 恢复旧位置，移动到新位置
+      if (overworldMap[arrow.x][arrow.y] === CellType.ARROW) {
+        overworldMap[arrow.x][arrow.y] = (arrow.underlyingCell as CellType) ?? CellType.EMPTY;
       }
       
       // 记录新位置的底层方块
