@@ -115,57 +115,63 @@ const GameScreen: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-400 to-green-400 p-8">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4 md:p-6">
+      <div className="max-w-6xl mx-auto space-y-4">
         <StatusBar />
 
-        <div className="mt-8 bg-white bg-opacity-90 rounded-xl p-6 shadow-2xl">
+        <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-4 shadow-2xl">
           <GameMap />
         </div>
 
-        {/* Control buttons */}
-        <div className="mt-6 flex flex-wrap gap-3 justify-center">
+        {/* Control buttons - compact grid */}
+        <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
           <button
             onClick={() => setShowInventory(true)}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold shadow-lg transition-all flex items-center gap-2"
+            className="bg-blue-600/90 hover:bg-blue-600 text-white px-3 py-2.5 rounded-lg font-medium shadow-lg transition-all flex items-center justify-center gap-1.5 text-sm"
           >
-            <Package className="w-5 h-5" />
-            背包 (E)
+            <Package className="w-4 h-4" />
+            <span className="hidden sm:inline">背包</span>
+            <span className="text-xs opacity-70">(E)</span>
           </button>
           <button
             onClick={() => setShowUseItem(true)}
-            className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-bold shadow-lg transition-all flex items-center gap-2"
+            className="bg-purple-600/90 hover:bg-purple-600 text-white px-3 py-2.5 rounded-lg font-medium shadow-lg transition-all flex items-center justify-center gap-1.5 text-sm"
           >
-            <Sparkles className="w-5 h-5" />
-            使用道具 (U)
+            <Sparkles className="w-4 h-4" />
+            <span className="hidden sm:inline">道具</span>
+            <span className="text-xs opacity-70">(U)</span>
           </button>
           <button
             onClick={() => setShowEatFood(true)}
-            className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-lg font-bold shadow-lg transition-all flex items-center gap-2"
+            className="bg-orange-600/90 hover:bg-orange-600 text-white px-3 py-2.5 rounded-lg font-medium shadow-lg transition-all flex items-center justify-center gap-1.5 text-sm"
           >
-            <UtensilsCrossed className="w-5 h-5" />
-            吃东西 (Q)
+            <UtensilsCrossed className="w-4 h-4" />
+            <span className="hidden sm:inline">食物</span>
+            <span className="text-xs opacity-70">(Q)</span>
           </button>
           <button
             onClick={() => setShowTutorial(true)}
-            className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-bold shadow-lg transition-all flex items-center gap-2"
+            className="bg-green-600/90 hover:bg-green-600 text-white px-3 py-2.5 rounded-lg font-medium shadow-lg transition-all flex items-center justify-center gap-1.5 text-sm"
           >
-            <BookOpen className="w-5 h-5" />
-            教程 (T)
+            <BookOpen className="w-4 h-4" />
+            <span className="hidden sm:inline">教程</span>
+            <span className="text-xs opacity-70">(T)</span>
           </button>
           <button
             onClick={() => setCurrentScreen('menu')}
-            className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-bold shadow-lg transition-all flex items-center gap-2"
+            className="bg-red-600/90 hover:bg-red-600 text-white px-3 py-2.5 rounded-lg font-medium shadow-lg transition-all flex items-center justify-center gap-1.5 text-sm"
           >
-            <ArrowLeft className="w-5 h-5" />
-            返回菜单 (R)
+            <ArrowLeft className="w-4 h-4" />
+            <span className="hidden sm:inline">菜单</span>
+            <span className="text-xs opacity-70">(R)</span>
           </button>
           <button
             onClick={() => setShowCommand(true)}
-            className="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-3 rounded-lg font-bold shadow-lg transition-all flex items-center gap-2"
+            className="bg-cyan-600/90 hover:bg-cyan-600 text-white px-3 py-2.5 rounded-lg font-medium shadow-lg transition-all flex items-center justify-center gap-1.5 text-sm"
           >
-            <Terminal className="w-5 h-5" />
-            指令 (/)
+            <Terminal className="w-4 h-4" />
+            <span className="hidden sm:inline">指令</span>
+            <span className="text-xs opacity-70">(/)</span>
           </button>
         </div>
 
@@ -188,37 +194,41 @@ const GameScreen: React.FC = () => {
         <GameMessages />
 
         {showUseItem && (
-          <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-            <div className="bg-gray-800 border-4 border-gray-600 rounded-xl p-8 max-w-md w-full mx-4">
-              <h2 className="text-2xl font-bold text-white mb-4">使用道具</h2>
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-gray-900 border border-gray-700 rounded-2xl p-6 max-w-md w-full shadow-2xl">
+              <h2 className="text-xl font-bold text-white mb-4">使用道具</h2>
               <div className="space-y-2">
                 <button
                   onClick={() => handleUseItem('enderPearl')}
-                  className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-lg font-semibold"
+                  className="w-full bg-purple-600/90 hover:bg-purple-600 text-white py-2.5 rounded-lg font-medium transition-all flex items-center justify-between px-4"
                 >
-                  末影珍珠 ({inventory.enderPearl})
+                  <span>🔮 末影珍珠</span>
+                  <span className="text-sm bg-purple-700 px-2 py-0.5 rounded">×{inventory.enderPearl}</span>
                 </button>
                 <button
                   onClick={() => handleUseItem('healingPotion')}
-                  className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg font-semibold"
+                  className="w-full bg-red-600/90 hover:bg-red-600 text-white py-2.5 rounded-lg font-medium transition-all flex items-center justify-between px-4"
                 >
-                  治疗药水 ({inventory.healingPotion})
+                  <span>❤️ 治疗药水</span>
+                  <span className="text-sm bg-red-700 px-2 py-0.5 rounded">×{inventory.healingPotion}</span>
                 </button>
                 <button
                   onClick={() => handleUseItem('splashPotion')}
-                  className="w-full bg-orange-600 hover:bg-orange-700 text-white py-3 rounded-lg font-semibold"
+                  className="w-full bg-orange-600/90 hover:bg-orange-600 text-white py-2.5 rounded-lg font-medium transition-all flex items-center justify-between px-4"
                 >
-                  喷溅型伤害药水 ({inventory.splashPotion})
+                  <span>💥 伤害药水</span>
+                  <span className="text-sm bg-orange-700 px-2 py-0.5 rounded">×{inventory.splashPotion}</span>
                 </button>
                 <button
                   onClick={() => handleUseItem('flintAndSteel')}
-                  className="w-full bg-yellow-600 hover:bg-yellow-700 text-white py-3 rounded-lg font-semibold"
+                  className="w-full bg-yellow-600/90 hover:bg-yellow-600 text-white py-2.5 rounded-lg font-medium transition-all flex items-center justify-between px-4"
                 >
-                  打火石 ({inventory.flintAndSteel})
+                  <span>🔥 打火石</span>
+                  <span className="text-sm bg-yellow-700 px-2 py-0.5 rounded">×{inventory.flintAndSteel}</span>
                 </button>
                 <button
                   onClick={() => setShowUseItem(false)}
-                  className="w-full bg-gray-600 hover:bg-gray-700 text-white py-3 rounded-lg font-semibold"
+                  className="w-full bg-gray-700/90 hover:bg-gray-700 text-white py-2.5 rounded-lg font-medium transition-all mt-4"
                 >
                   取消
                 </button>
@@ -228,25 +238,33 @@ const GameScreen: React.FC = () => {
         )}
 
         {showEatFood && (
-          <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-            <div className="bg-gray-800 border-4 border-gray-600 rounded-xl p-8 max-w-md w-full mx-4">
-              <h2 className="text-2xl font-bold text-white mb-4">吃食物</h2>
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-gray-900 border border-gray-700 rounded-2xl p-6 max-w-md w-full shadow-2xl">
+              <h2 className="text-xl font-bold text-white mb-4">吃食物</h2>
               <div className="space-y-2">
                 <button
                   onClick={() => handleEatFood('rottenFlesh')}
-                  className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold"
+                  className="w-full bg-green-600/90 hover:bg-green-600 text-white py-3 rounded-lg font-medium transition-all"
                 >
-                  腐肉 ({inventory.rottenFlesh}) - 恢复1点饱食度
+                  <div className="flex items-center justify-between px-4">
+                    <span>🥩 腐肉</span>
+                    <span className="text-sm bg-green-700 px-2 py-0.5 rounded">×{inventory.rottenFlesh}</span>
+                  </div>
+                  <div className="text-xs opacity-80 mt-1">恢复1点饱食度</div>
                 </button>
                 <button
                   onClick={() => handleEatFood('bread')}
-                  className="w-full bg-orange-600 hover:bg-orange-700 text-white py-3 rounded-lg font-semibold"
+                  className="w-full bg-orange-600/90 hover:bg-orange-600 text-white py-3 rounded-lg font-medium transition-all"
                 >
-                  面包 ({inventory.bread}) - 恢复3点饱食度
+                  <div className="flex items-center justify-between px-4">
+                    <span>🍞 面包</span>
+                    <span className="text-sm bg-orange-700 px-2 py-0.5 rounded">×{inventory.bread}</span>
+                  </div>
+                  <div className="text-xs opacity-80 mt-1">恢复3点饱食度</div>
                 </button>
                 <button
                   onClick={() => setShowEatFood(false)}
-                  className="w-full bg-gray-600 hover:bg-gray-700 text-white py-3 rounded-lg font-semibold"
+                  className="w-full bg-gray-700/90 hover:bg-gray-700 text-white py-2.5 rounded-lg font-medium transition-all mt-4"
                 >
                   取消
                 </button>
