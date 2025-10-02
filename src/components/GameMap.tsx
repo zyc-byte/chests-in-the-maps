@@ -1,7 +1,7 @@
 import React from 'react';
 import { useGameStore } from '../store/gameStore';
 import { CellType, NetherCellType, Biome } from '../types/game';
-import { Box, Skull, Flame, ChevronRight, DoorOpen, DoorClosed, Sword } from 'lucide-react';
+import { Box, Skull, Flame, ChevronRight, DoorOpen, DoorClosed } from 'lucide-react';
 
 const GameMap: React.FC = () => {
   const { overworldMap, netherMap, mapSize, biome } = useGameStore();

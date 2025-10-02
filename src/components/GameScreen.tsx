@@ -19,11 +19,9 @@ const GameScreen: React.FC = () => {
     eatFood,
     toggleDebug,
     setCurrentScreen,
-    nextLevel,
     playerPos,
     mapSize,
     isDoorActivated,
-    overworldMap,
     inventory,
     isDebugMode,
   } = useGameStore();

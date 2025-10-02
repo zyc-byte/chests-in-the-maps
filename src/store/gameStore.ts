@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { GameState, CellType, NetherCellType, Direction, Biome, Position, Entity, Arrow, Inventory, ITEM_PRICES, GameMessage } from '../types/game';
+import { GameState, CellType, NetherCellType, Direction, Biome, Entity, Inventory, ITEM_PRICES, GameMessage } from '../types/game';
 
 const createEmptyInventory = (): Inventory => ({
   cobblestone: 0,
@@ -249,10 +249,6 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
           // 放置玩家
           overworldMap[newX][newY] = CellType.PLAYER;
         } else {
-          const mid = mapSize % 2 === 0 ? mapSize / 2 : (mapSize + 1) / 2;
-          const isInFortress = (playerPos.x >= mid - 1 && playerPos.x <= mid + 1) || 
-                               (playerPos.y >= mid - 1 && playerPos.y <= mid + 1);
-          
           // 恢复旧位置的底层方块
           if (netherMap[playerPos.x][playerPos.y] === NetherCellType.NETHER_PLAYER) {
             netherMap[playerPos.x][playerPos.y] = state.playerUnderlyingCell as NetherCellType;
@@ -455,7 +451,7 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
 
   applyItem: (item: keyof Inventory) => {
     const state = get();
-    const { inventory, playerPos, overworldMap, mapSize } = state;
+    const { inventory, playerPos, overworldMap } = state;
     
     if (inventory[item] <= 0) {
       get().addMessage('该道具数量不足！', 'warning');
@@ -864,7 +860,7 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
 
   moveMobs: () => {
     const state = get();
-    const { playerPos, overworldMap, netherMap, zombies, skeletons, lavaZombies, biome, mapSize, step } = state;
+    const { playerPos, overworldMap, netherMap, zombies, skeletons, lavaZombies, biome } = state;
     
     if (biome === Biome.OVERWORLD) {
       // Move zombies (with randomness to prevent all moving at once)
@@ -1012,7 +1008,7 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
 
   checkMobAttacks: () => {
     const state = get();
-    const { playerPos, zombies, skeletons, lavaZombies, arrows, biome, hp } = state;
+    const { playerPos, zombies, lavaZombies, arrows, biome, hp } = state;
     const directions = [
       { x: 0, y: 1 },
       { x: 1, y: 0 },
@@ -1024,7 +1020,7 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
     
     if (biome === Biome.OVERWORLD) {
       // Check zombie attacks
-      zombies.forEach((zombie, i) => {
+      zombies.forEach((zombie) => {
         for (const dir of directions) {
           if (playerPos.x === zombie.x + dir.x && playerPos.y === zombie.y + dir.y) {
             newHp -= 2;
@@ -1035,7 +1031,7 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
       });
       
       // Check arrow hits
-      arrows.forEach((arrow, i) => {
+      arrows.forEach((arrow) => {
         if (playerPos.x === arrow.x && playerPos.y === arrow.y) {
           newHp -= 1;
           get().addMessage(`被箭矢击中！生命值 -1`, 'error');
@@ -1043,7 +1039,7 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
       });
     } else {
       // Check lava zombie attacks
-      lavaZombies.forEach((lavaZombie, i) => {
+      lavaZombies.forEach((lavaZombie) => {
         for (const dir of directions) {
           if (playerPos.x === lavaZombie.x + dir.x && playerPos.y === lavaZombie.y + dir.y) {
             newHp -= 2;
