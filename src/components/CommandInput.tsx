@@ -7,7 +7,7 @@ interface CommandInputProps {
 }
 
 const CommandInput: React.FC<CommandInputProps> = ({ onClose }) => {
-  const [command, setCommand] = useState('');
+  const [command, setCommand] = useState('/');
   const { executeCommand, isCheatEnabled } = useGameStore();
 
   // 阻止游戏按键操作
@@ -29,13 +29,23 @@ const CommandInput: React.FC<CommandInputProps> = ({ onClose }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (command.trim()) {
+    if (command.trim() && command.trim() !== '/') {
       if (!isCheatEnabled && !command.trim().startsWith('/help')) {
         alert('需要启用作弊模式才能使用指令！');
         return;
       }
       executeCommand(command);
-      setCommand('');
+      setCommand('/');
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    // 确保总是以'/'开头
+    if (value === '' || !value.startsWith('/')) {
+      setCommand('/');
+    } else {
+      setCommand(value);
     }
   };
 
@@ -54,23 +64,23 @@ const CommandInput: React.FC<CommandInputProps> = ({ onClose }) => {
   ];
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-      <div className="bg-gray-900 border-4 border-cyan-500 rounded-xl p-6 max-w-2xl w-full mx-4 shadow-2xl">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+      <div className="bg-white/90 backdrop-blur-md border-4 border-cyan-400 rounded-3xl p-6 max-w-2xl w-full mx-4 shadow-2xl">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold text-cyan-400 flex items-center gap-2">
+          <h2 className="text-2xl font-bold text-cyan-600 flex items-center gap-2">
             <Terminal className="w-6 h-6" />
             指令控制台
           </h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-white transition-colors"
+            className="text-gray-500 hover:text-gray-800 transition-colors"
           >
             <X className="w-6 h-6" />
           </button>
         </div>
 
         {!isCheatEnabled && (
-          <div className="bg-yellow-900/50 border-2 border-yellow-600 text-yellow-200 px-4 py-2 rounded-lg mb-4">
+          <div className="bg-yellow-100/70 backdrop-blur-sm border-2 border-yellow-400 text-yellow-800 px-4 py-2 rounded-2xl mb-4">
             ⚠️ 作弊模式未启用！只能使用 /help 指令
           </div>
         )}
@@ -80,45 +90,50 @@ const CommandInput: React.FC<CommandInputProps> = ({ onClose }) => {
             <input
               type="text"
               value={command}
-              onChange={(e) => setCommand(e.target.value)}
-              placeholder="输入指令..."
-              className="flex-1 bg-gray-800 text-white px-4 py-2 rounded-lg border-2 border-gray-700 focus:border-cyan-500 outline-none"
+              onChange={handleInputChange}
+              placeholder="/输入指令..."
+              className="flex-1 bg-white/80 text-gray-800 px-4 py-2 rounded-2xl border-2 border-gray-300 focus:border-cyan-500 outline-none"
               autoFocus
+              onFocus={(e) => {
+                // 将光标移到末尾
+                const len = e.target.value.length;
+                e.target.setSelectionRange(len, len);
+              }}
             />
             <button
               type="submit"
-              className="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors"
+              className="bg-cyan-500/80 backdrop-blur-md hover:bg-cyan-600/80 text-white px-6 py-2 rounded-2xl font-semibold transition-colors"
             >
               执行
             </button>
           </div>
         </form>
 
-        <div className="bg-gray-800 rounded-lg p-4 max-h-96 overflow-y-auto">
-          <h3 className="text-cyan-400 font-bold mb-3 flex items-center gap-2">
+        <div className="bg-blue-50/70 backdrop-blur-sm rounded-2xl p-4 max-h-96 overflow-y-auto border border-blue-200">
+          <h3 className="text-cyan-600 font-bold mb-3 flex items-center gap-2">
             <HelpCircle className="w-5 h-5" />
             常用指令
           </h3>
           <div className="space-y-2">
             {commonCommands.map((cmd, i) => (
-              <div key={i} className="bg-gray-700 rounded p-2">
-                <code className="text-green-400">{cmd.cmd}</code>
-                <p className="text-gray-300 text-sm mt-1">{cmd.desc}</p>
+              <div key={i} className="bg-blue-100/70 rounded-xl p-2">
+                <code className="text-green-600">{cmd.cmd}</code>
+                <p className="text-gray-700 text-sm mt-1">{cmd.desc}</p>
               </div>
             ))}
           </div>
 
-          <h3 className="text-cyan-400 font-bold mt-4 mb-2">可用物品名称：</h3>
+          <h3 className="text-cyan-600 font-bold mt-4 mb-2">可用物品名称：</h3>
           <div className="flex flex-wrap gap-1">
             {itemNames.map((item) => (
-              <span key={item} className="bg-gray-700 text-xs text-gray-300 px-2 py-1 rounded">
+              <span key={item} className="bg-blue-100/70 text-xs text-gray-700 px-2 py-1 rounded-xl">
                 {item}
               </span>
             ))}
           </div>
 
-          <h3 className="text-cyan-400 font-bold mt-4 mb-2">示例：</h3>
-          <div className="space-y-1 text-gray-300 text-sm font-mono">
+          <h3 className="text-cyan-600 font-bold mt-4 mb-2">示例：</h3>
+          <div className="space-y-1 text-gray-700 text-sm font-mono">
             <p>• /tp 5 5 - 传送到坐标(5, 5)</p>
             <p>• /give diamond 10 - 获得10个钻石</p>
             <p>• /kill zombie - 击杀所有僵尸</p>

@@ -115,11 +115,11 @@ const GameScreen: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4 md:p-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-blue-100 p-4 md:p-6">
       <div className="max-w-6xl mx-auto space-y-4">
         <StatusBar />
 
-        <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-4 shadow-2xl">
+        <div className="bg-white/60 backdrop-blur-md border border-gray-200 rounded-3xl p-4 shadow-2xl">
           <GameMap />
         </div>
 
@@ -127,7 +127,7 @@ const GameScreen: React.FC = () => {
         <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
           <button
             onClick={() => setShowInventory(true)}
-            className="bg-blue-600/90 hover:bg-blue-600 text-white px-3 py-2.5 rounded-lg font-medium shadow-lg transition-all flex items-center justify-center gap-1.5 text-sm"
+            className="bg-blue-500/80 backdrop-blur-md hover:bg-blue-600/80 text-white px-3 py-2.5 rounded-2xl font-medium shadow-lg transition-all flex items-center justify-center gap-1.5 text-sm"
           >
             <Package className="w-4 h-4" />
             <span className="hidden sm:inline">背包</span>
@@ -135,7 +135,7 @@ const GameScreen: React.FC = () => {
           </button>
           <button
             onClick={() => setShowUseItem(true)}
-            className="bg-purple-600/90 hover:bg-purple-600 text-white px-3 py-2.5 rounded-lg font-medium shadow-lg transition-all flex items-center justify-center gap-1.5 text-sm"
+            className="bg-purple-500/80 backdrop-blur-md hover:bg-purple-600/80 text-white px-3 py-2.5 rounded-2xl font-medium shadow-lg transition-all flex items-center justify-center gap-1.5 text-sm"
           >
             <Sparkles className="w-4 h-4" />
             <span className="hidden sm:inline">道具</span>
@@ -143,7 +143,7 @@ const GameScreen: React.FC = () => {
           </button>
           <button
             onClick={() => setShowEatFood(true)}
-            className="bg-orange-600/90 hover:bg-orange-600 text-white px-3 py-2.5 rounded-lg font-medium shadow-lg transition-all flex items-center justify-center gap-1.5 text-sm"
+            className="bg-orange-500/80 backdrop-blur-md hover:bg-orange-600/80 text-white px-3 py-2.5 rounded-2xl font-medium shadow-lg transition-all flex items-center justify-center gap-1.5 text-sm"
           >
             <UtensilsCrossed className="w-4 h-4" />
             <span className="hidden sm:inline">食物</span>
@@ -151,7 +151,7 @@ const GameScreen: React.FC = () => {
           </button>
           <button
             onClick={() => setShowTutorial(true)}
-            className="bg-green-600/90 hover:bg-green-600 text-white px-3 py-2.5 rounded-lg font-medium shadow-lg transition-all flex items-center justify-center gap-1.5 text-sm"
+            className="bg-green-500/80 backdrop-blur-md hover:bg-green-600/80 text-white px-3 py-2.5 rounded-2xl font-medium shadow-lg transition-all flex items-center justify-center gap-1.5 text-sm"
           >
             <BookOpen className="w-4 h-4" />
             <span className="hidden sm:inline">教程</span>
@@ -159,7 +159,7 @@ const GameScreen: React.FC = () => {
           </button>
           <button
             onClick={() => setCurrentScreen('menu')}
-            className="bg-red-600/90 hover:bg-red-600 text-white px-3 py-2.5 rounded-lg font-medium shadow-lg transition-all flex items-center justify-center gap-1.5 text-sm"
+            className="bg-red-500/80 backdrop-blur-md hover:bg-red-600/80 text-white px-3 py-2.5 rounded-2xl font-medium shadow-lg transition-all flex items-center justify-center gap-1.5 text-sm"
           >
             <ArrowLeft className="w-4 h-4" />
             <span className="hidden sm:inline">菜单</span>
@@ -167,7 +167,7 @@ const GameScreen: React.FC = () => {
           </button>
           <button
             onClick={() => setShowCommand(true)}
-            className="bg-cyan-600/90 hover:bg-cyan-600 text-white px-3 py-2.5 rounded-lg font-medium shadow-lg transition-all flex items-center justify-center gap-1.5 text-sm"
+            className="bg-cyan-500/80 backdrop-blur-md hover:bg-cyan-600/80 text-white px-3 py-2.5 rounded-2xl font-medium shadow-lg transition-all flex items-center justify-center gap-1.5 text-sm"
           >
             <Terminal className="w-4 h-4" />
             <span className="hidden sm:inline">指令</span>
@@ -177,7 +177,7 @@ const GameScreen: React.FC = () => {
 
         {/* Debug info */}
         {isDebugMode && (
-          <div className="mt-4 bg-gray-800 text-white p-4 rounded-lg font-mono text-sm">
+          <div className="mt-4 bg-white/70 backdrop-blur-sm text-gray-800 p-4 rounded-2xl font-mono text-sm border border-gray-200">
             <p>地图大小: {mapSize}</p>
             <p>玩家坐标: ({playerPos.x}, {playerPos.y})</p>
             <p>传送门激活: {isDoorActivated ? '是' : '否'}</p>
@@ -194,41 +194,41 @@ const GameScreen: React.FC = () => {
         <GameMessages />
 
         {showUseItem && (
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <div className="bg-gray-900 border border-gray-700 rounded-2xl p-6 max-w-md w-full shadow-2xl">
-              <h2 className="text-xl font-bold text-white mb-4">使用道具</h2>
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-white/90 backdrop-blur-md border border-gray-300 rounded-3xl p-6 max-w-md w-full shadow-2xl">
+              <h2 className="text-xl font-bold text-gray-800 mb-4">使用道具</h2>
               <div className="space-y-2">
                 <button
                   onClick={() => handleUseItem('enderPearl')}
-                  className="w-full bg-purple-600/90 hover:bg-purple-600 text-white py-2.5 rounded-lg font-medium transition-all flex items-center justify-between px-4"
+                  className="w-full bg-purple-500/80 backdrop-blur-md hover:bg-purple-600/80 text-white py-2.5 rounded-2xl font-medium transition-all flex items-center justify-between px-4"
                 >
                   <span>🔮 末影珍珠</span>
-                  <span className="text-sm bg-purple-700 px-2 py-0.5 rounded">×{inventory.enderPearl}</span>
+                  <span className="text-sm bg-purple-600/70 px-2 py-0.5 rounded-xl">×{inventory.enderPearl}</span>
                 </button>
                 <button
                   onClick={() => handleUseItem('healingPotion')}
-                  className="w-full bg-red-600/90 hover:bg-red-600 text-white py-2.5 rounded-lg font-medium transition-all flex items-center justify-between px-4"
+                  className="w-full bg-red-500/80 backdrop-blur-md hover:bg-red-600/80 text-white py-2.5 rounded-2xl font-medium transition-all flex items-center justify-between px-4"
                 >
                   <span>❤️ 治疗药水</span>
-                  <span className="text-sm bg-red-700 px-2 py-0.5 rounded">×{inventory.healingPotion}</span>
+                  <span className="text-sm bg-red-600/70 px-2 py-0.5 rounded-xl">×{inventory.healingPotion}</span>
                 </button>
                 <button
                   onClick={() => handleUseItem('splashPotion')}
-                  className="w-full bg-orange-600/90 hover:bg-orange-600 text-white py-2.5 rounded-lg font-medium transition-all flex items-center justify-between px-4"
+                  className="w-full bg-orange-500/80 backdrop-blur-md hover:bg-orange-600/80 text-white py-2.5 rounded-2xl font-medium transition-all flex items-center justify-between px-4"
                 >
                   <span>💥 伤害药水</span>
-                  <span className="text-sm bg-orange-700 px-2 py-0.5 rounded">×{inventory.splashPotion}</span>
+                  <span className="text-sm bg-orange-600/70 px-2 py-0.5 rounded-xl">×{inventory.splashPotion}</span>
                 </button>
                 <button
                   onClick={() => handleUseItem('flintAndSteel')}
-                  className="w-full bg-yellow-600/90 hover:bg-yellow-600 text-white py-2.5 rounded-lg font-medium transition-all flex items-center justify-between px-4"
+                  className="w-full bg-yellow-500/80 backdrop-blur-md hover:bg-yellow-600/80 text-white py-2.5 rounded-2xl font-medium transition-all flex items-center justify-between px-4"
                 >
                   <span>🔥 打火石</span>
-                  <span className="text-sm bg-yellow-700 px-2 py-0.5 rounded">×{inventory.flintAndSteel}</span>
+                  <span className="text-sm bg-yellow-600/70 px-2 py-0.5 rounded-xl">×{inventory.flintAndSteel}</span>
                 </button>
                 <button
                   onClick={() => setShowUseItem(false)}
-                  className="w-full bg-gray-700/90 hover:bg-gray-700 text-white py-2.5 rounded-lg font-medium transition-all mt-4"
+                  className="w-full bg-gray-400/80 backdrop-blur-md hover:bg-gray-500/80 text-white py-2.5 rounded-2xl font-medium transition-all mt-4"
                 >
                   取消
                 </button>
@@ -238,33 +238,33 @@ const GameScreen: React.FC = () => {
         )}
 
         {showEatFood && (
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <div className="bg-gray-900 border border-gray-700 rounded-2xl p-6 max-w-md w-full shadow-2xl">
-              <h2 className="text-xl font-bold text-white mb-4">吃食物</h2>
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-white/90 backdrop-blur-md border border-gray-300 rounded-3xl p-6 max-w-md w-full shadow-2xl">
+              <h2 className="text-xl font-bold text-gray-800 mb-4">吃食物</h2>
               <div className="space-y-2">
                 <button
                   onClick={() => handleEatFood('rottenFlesh')}
-                  className="w-full bg-green-600/90 hover:bg-green-600 text-white py-3 rounded-lg font-medium transition-all"
+                  className="w-full bg-green-500/80 backdrop-blur-md hover:bg-green-600/80 text-white py-3 rounded-2xl font-medium transition-all"
                 >
                   <div className="flex items-center justify-between px-4">
                     <span>🥩 腐肉</span>
-                    <span className="text-sm bg-green-700 px-2 py-0.5 rounded">×{inventory.rottenFlesh}</span>
+                    <span className="text-sm bg-green-600/70 px-2 py-0.5 rounded-xl">×{inventory.rottenFlesh}</span>
                   </div>
                   <div className="text-xs opacity-80 mt-1">恢复1点饱食度</div>
                 </button>
                 <button
                   onClick={() => handleEatFood('bread')}
-                  className="w-full bg-orange-600/90 hover:bg-orange-600 text-white py-3 rounded-lg font-medium transition-all"
+                  className="w-full bg-orange-500/80 backdrop-blur-md hover:bg-orange-600/80 text-white py-3 rounded-2xl font-medium transition-all"
                 >
                   <div className="flex items-center justify-between px-4">
                     <span>🍞 面包</span>
-                    <span className="text-sm bg-orange-700 px-2 py-0.5 rounded">×{inventory.bread}</span>
+                    <span className="text-sm bg-orange-600/70 px-2 py-0.5 rounded-xl">×{inventory.bread}</span>
                   </div>
                   <div className="text-xs opacity-80 mt-1">恢复3点饱食度</div>
                 </button>
                 <button
                   onClick={() => setShowEatFood(false)}
-                  className="w-full bg-gray-700/90 hover:bg-gray-700 text-white py-2.5 rounded-lg font-medium transition-all mt-4"
+                  className="w-full bg-gray-400/80 backdrop-blur-md hover:bg-gray-500/80 text-white py-2.5 rounded-2xl font-medium transition-all mt-4"
                 >
                   取消
                 </button>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useGameStore } from '../store/gameStore';
 import { X } from 'lucide-react';
 
@@ -8,6 +8,16 @@ interface InventoryPanelProps {
 
 const InventoryPanel: React.FC<InventoryPanelProps> = ({ onClose }) => {
   const { inventory } = useGameStore();
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
 
   const items = [
     { key: 'cobblestone', label: '圆石', value: inventory.cobblestone },
@@ -30,13 +40,13 @@ const InventoryPanel: React.FC<InventoryPanelProps> = ({ onClose }) => {
   ];
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-      <div className="bg-gradient-to-br from-gray-800 to-gray-900 border-4 border-gray-600 rounded-xl p-8 max-w-2xl w-full mx-4 shadow-2xl">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+      <div className="bg-white/90 backdrop-blur-md border-2 border-gray-300 rounded-3xl p-8 max-w-2xl w-full mx-4 shadow-2xl">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-3xl font-bold text-white">背包</h2>
+          <h2 className="text-3xl font-bold text-gray-800">背包</h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-white transition-colors"
+            className="text-gray-500 hover:text-gray-800 transition-colors"
           >
             <X className="w-8 h-8" />
           </button>
@@ -46,10 +56,10 @@ const InventoryPanel: React.FC<InventoryPanelProps> = ({ onClose }) => {
           {items.map((item) => (
             <div
               key={item.key}
-              className="bg-gray-700 border-2 border-gray-600 rounded-lg p-3 flex justify-between items-center hover:bg-gray-600 transition-colors"
+              className="bg-blue-50/70 backdrop-blur-sm border-2 border-blue-200 rounded-2xl p-3 flex justify-between items-center hover:bg-blue-100/70 transition-colors"
             >
-              <span className="text-white font-semibold">{item.label}</span>
-              <span className="text-yellow-400 font-bold">{item.value}</span>
+              <span className="text-gray-800 font-semibold">{item.label}</span>
+              <span className="text-yellow-600 font-bold">{item.value}</span>
             </div>
           ))}
         </div>

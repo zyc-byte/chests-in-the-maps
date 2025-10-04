@@ -5,7 +5,8 @@ import GameMap from './GameMap';
 import StatusBar from './StatusBar';
 import InventoryPanel from './InventoryPanel';
 import TutorialPanel from './TutorialPanel';
-import { Package, BookOpen, UtensilsCrossed, ArrowLeft } from 'lucide-react';
+import { Package, BookOpen, UtensilsCrossed, ArrowLeft, Terminal } from 'lucide-react';
+import CommandInput from './CommandInput';
 
 const NetherScreen: React.FC = () => {
   const {
@@ -21,10 +22,15 @@ const NetherScreen: React.FC = () => {
   const [showInventory, setShowInventory] = useState(false);
   const [showTutorial, setShowTutorial] = useState(false);
   const [showEatFood, setShowEatFood] = useState(false);
+  const [showCommand, setShowCommand] = useState(false);
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       const key = e.key.toLowerCase();
+
+      if (key === '/' || key === 'e' || key === 'q' || key === 't') {
+        e.preventDefault();
+      }
 
       switch (key) {
         case 'w':
@@ -57,6 +63,9 @@ const NetherScreen: React.FC = () => {
         case 'r':
           exitNether();
           break;
+        case '/':
+          setShowCommand(true);
+          break;
       }
     };
 
@@ -83,16 +92,16 @@ const NetherScreen: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-red-900 to-red-700 p-8">
+    <div className="min-h-screen bg-gradient-to-b from-red-50 to-orange-100 p-8">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-4">
-          <h1 className="text-4xl font-bold text-red-200 mb-2">下界 - THE NETHER</h1>
-          <p className="text-red-300">小心熔岩僵尸！</p>
+          <h1 className="text-4xl font-bold text-red-700 mb-2">下界 - THE NETHER</h1>
+          <p className="text-red-600">小心熔岩僵尸！</p>
         </div>
 
         <StatusBar />
 
-        <div className="mt-8 bg-black bg-opacity-50 rounded-xl p-6 shadow-2xl">
+        <div className="mt-8 bg-white/60 backdrop-blur-md rounded-3xl p-6 shadow-2xl border border-gray-200">
           <GameMap />
         </div>
 
@@ -100,28 +109,35 @@ const NetherScreen: React.FC = () => {
         <div className="mt-6 flex flex-wrap gap-3 justify-center">
           <button
             onClick={() => setShowInventory(true)}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold shadow-lg transition-all flex items-center gap-2"
+            className="bg-blue-500/80 backdrop-blur-md hover:bg-blue-600/80 text-white px-6 py-3 rounded-2xl font-bold shadow-lg transition-all flex items-center gap-2"
           >
             <Package className="w-5 h-5" />
             背包 (E)
           </button>
           <button
             onClick={() => setShowEatFood(true)}
-            className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-lg font-bold shadow-lg transition-all flex items-center gap-2"
+            className="bg-orange-500/80 backdrop-blur-md hover:bg-orange-600/80 text-white px-6 py-3 rounded-2xl font-bold shadow-lg transition-all flex items-center gap-2"
           >
             <UtensilsCrossed className="w-5 h-5" />
             吃东西 (Q)
           </button>
           <button
             onClick={() => setShowTutorial(true)}
-            className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-bold shadow-lg transition-all flex items-center gap-2"
+            className="bg-green-500/80 backdrop-blur-md hover:bg-green-600/80 text-white px-6 py-3 rounded-2xl font-bold shadow-lg transition-all flex items-center gap-2"
           >
             <BookOpen className="w-5 h-5" />
             教程 (T)
           </button>
           <button
+            onClick={() => setShowCommand(true)}
+            className="bg-cyan-500/80 backdrop-blur-md hover:bg-cyan-600/80 text-white px-6 py-3 rounded-2xl font-bold shadow-lg transition-all flex items-center gap-2"
+          >
+            <Terminal className="w-5 h-5" />
+            指令 (/)
+          </button>
+          <button
             onClick={exitNether}
-            className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-bold shadow-lg transition-all flex items-center gap-2"
+            className="bg-purple-500/80 backdrop-blur-md hover:bg-purple-600/80 text-white px-6 py-3 rounded-2xl font-bold shadow-lg transition-all flex items-center gap-2"
           >
             <ArrowLeft className="w-5 h-5" />
             返回主世界 (R)
@@ -131,27 +147,28 @@ const NetherScreen: React.FC = () => {
         {/* Modals */}
         {showInventory && <InventoryPanel onClose={() => setShowInventory(false)} />}
         {showTutorial && <TutorialPanel onClose={() => setShowTutorial(false)} />}
+        {showCommand && <CommandInput onClose={() => setShowCommand(false)} />}
 
         {showEatFood && (
-          <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-            <div className="bg-gray-800 border-4 border-gray-600 rounded-xl p-8 max-w-md w-full mx-4">
-              <h2 className="text-2xl font-bold text-white mb-4">吃食物</h2>
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+            <div className="bg-white/90 backdrop-blur-md border-2 border-gray-300 rounded-3xl p-8 max-w-md w-full mx-4 shadow-2xl">
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">吃食物</h2>
               <div className="space-y-2">
                 <button
                   onClick={() => handleEatFood('rottenFlesh')}
-                  className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold"
+                  className="w-full bg-green-500/80 backdrop-blur-md hover:bg-green-600/80 text-white py-3 rounded-2xl font-semibold"
                 >
                   腐肉 ({inventory.rottenFlesh}) - 恢复1点饱食度
                 </button>
                 <button
                   onClick={() => handleEatFood('bread')}
-                  className="w-full bg-orange-600 hover:bg-orange-700 text-white py-3 rounded-lg font-semibold"
+                  className="w-full bg-orange-500/80 backdrop-blur-md hover:bg-orange-600/80 text-white py-3 rounded-2xl font-semibold"
                 >
                   面包 ({inventory.bread}) - 恢复3点饱食度
                 </button>
                 <button
                   onClick={() => setShowEatFood(false)}
-                  className="w-full bg-gray-600 hover:bg-gray-700 text-white py-3 rounded-lg font-semibold"
+                  className="w-full bg-gray-400/80 backdrop-blur-md hover:bg-gray-500/80 text-white py-3 rounded-2xl font-semibold"
                 >
                   取消
                 </button>

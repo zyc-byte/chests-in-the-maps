@@ -15,7 +15,7 @@ const GameMap: React.FC = () => {
         case CellType.DIRT_2:
         case CellType.DIRT_3:
         case CellType.DIRT_4:
-          return 'bg-amber-100';
+          return 'bg-transparent';
         case CellType.WALL_1:
         case CellType.WALL_2:
         case CellType.WALL_3:
@@ -23,15 +23,19 @@ const GameMap: React.FC = () => {
         case CellType.CHEST:
           return 'bg-yellow-600';
         case CellType.ZOMBIE:
+          return 'bg-green-700';
         case CellType.ZOMBIE_2HP:
+          return 'bg-green-500';
         case CellType.ZOMBIE_1HP:
-          return 'bg-green-600';
+          return 'bg-green-300';
         case CellType.PLAYER:
           return 'bg-blue-500';
         case CellType.DOOR:
           return 'bg-gray-800';
         case CellType.SKELETON:
+          return 'bg-gray-600';
         case CellType.SKELETON_2HP:
+          return 'bg-gray-400';
         case CellType.SKELETON_1HP:
           return 'bg-gray-300';
         case CellType.ARROW:
@@ -39,12 +43,12 @@ const GameMap: React.FC = () => {
         case CellType.ACTIVATED_DOOR:
           return 'bg-purple-600';
         default:
-          return 'bg-amber-100';
+          return 'bg-transparent';
       }
     } else {
       switch (cellType as NetherCellType) {
         case NetherCellType.NETHERRACK:
-          return 'bg-red-900';
+          return 'bg-transparent';
         case NetherCellType.NETHER_BRICK:
           return 'bg-red-950';
         case NetherCellType.NETHER_PLAYER:
@@ -54,13 +58,17 @@ const GameMap: React.FC = () => {
         case NetherCellType.NETHER_CHEST:
           return 'bg-yellow-600';
         case NetherCellType.LAVA_ZOMBIE:
+          return 'bg-orange-700';
         case NetherCellType.LAVA_ZOMBIE_4HP:
+          return 'bg-orange-600';
         case NetherCellType.LAVA_ZOMBIE_3HP:
-        case NetherCellType.LAVA_ZOMBIE_2HP:
-        case NetherCellType.LAVA_ZOMBIE_1HP:
           return 'bg-orange-500';
+        case NetherCellType.LAVA_ZOMBIE_2HP:
+          return 'bg-orange-400';
+        case NetherCellType.LAVA_ZOMBIE_1HP:
+          return 'bg-orange-300';
         default:
-          return 'bg-red-900';
+          return 'bg-transparent';
       }
     }
   };
@@ -71,9 +79,11 @@ const GameMap: React.FC = () => {
         case CellType.CHEST:
           return <Box className="w-4 h-4 text-white" />;
         case CellType.ZOMBIE:
-        case CellType.ZOMBIE_2HP:
-        case CellType.ZOMBIE_1HP:
           return <span className="text-white text-xs font-bold">Z</span>;
+        case CellType.ZOMBIE_2HP:
+          return <span className="text-green-900 text-xs font-bold">Z</span>;
+        case CellType.ZOMBIE_1HP:
+          return <span className="text-green-800 text-xs font-bold">Z</span>;
         case CellType.PLAYER:
           return <span className="text-white text-xs font-bold">@</span>;
         case CellType.DOOR:
@@ -81,9 +91,11 @@ const GameMap: React.FC = () => {
         case CellType.ACTIVATED_DOOR:
           return <DoorOpen className="w-4 h-4 text-white" />;
         case CellType.SKELETON:
-        case CellType.SKELETON_2HP:
-        case CellType.SKELETON_1HP:
           return <Skull className="w-4 h-4 text-white" />;
+        case CellType.SKELETON_2HP:
+          return <Skull className="w-4 h-4 text-gray-800" />;
+        case CellType.SKELETON_1HP:
+          return <Skull className="w-4 h-4 text-gray-700" />;
         case CellType.ARROW:
           return <ChevronRight className="w-4 h-4 text-gray-700" />;
         case CellType.WALL_1:
@@ -104,11 +116,15 @@ const GameMap: React.FC = () => {
         case NetherCellType.NETHER_CHEST:
           return <Box className="w-4 h-4 text-white" />;
         case NetherCellType.LAVA_ZOMBIE:
-        case NetherCellType.LAVA_ZOMBIE_4HP:
-        case NetherCellType.LAVA_ZOMBIE_3HP:
-        case NetherCellType.LAVA_ZOMBIE_2HP:
-        case NetherCellType.LAVA_ZOMBIE_1HP:
           return <Flame className="w-4 h-4 text-white" />;
+        case NetherCellType.LAVA_ZOMBIE_4HP:
+          return <Flame className="w-4 h-4 text-orange-900" />;
+        case NetherCellType.LAVA_ZOMBIE_3HP:
+          return <Flame className="w-4 h-4 text-orange-800" />;
+        case NetherCellType.LAVA_ZOMBIE_2HP:
+          return <Flame className="w-4 h-4 text-orange-700" />;
+        case NetherCellType.LAVA_ZOMBIE_1HP:
+          return <Flame className="w-4 h-4 text-orange-600" />;
         default:
           return null;
       }
@@ -139,7 +155,7 @@ const GameMap: React.FC = () => {
           {row.slice(1, mapSize + 1).map((cell, j) => (
             <div
               key={j}
-              className={`w-8 h-8 flex items-center justify-center border border-gray-400 ${getCellColor(cell, biome !== Biome.OVERWORLD)}`}
+              className={`w-8 h-8 flex items-center justify-center border border-gray-400 rounded-lg ${getCellColor(cell, biome !== Biome.OVERWORLD)}`}
             >
               {getCellIcon(cell, biome !== Biome.OVERWORLD)}
             </div>

@@ -183,8 +183,11 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
       }
     }
     
-    // Set player position
-    map[2][2] = CellType.PLAYER;
+    // Set player position and record underlying cell
+    const playerX = 2;
+    const playerY = 2;
+    const playerUnderlyingCell = map[playerX][playerY];
+    map[playerX][playerY] = CellType.PLAYER;
     
     // Set door position
     map[size - 1][size - 1] = CellType.DOOR;
@@ -193,9 +196,9 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
       mapSize: size,
       overworldMap: map,
       netherMap: createEmptyNetherMap(size),  // 重置下界地图
-      playerPos: { x: 2, y: 2 },
+      playerPos: { x: playerX, y: playerY },
       playerDirection: Direction.EAST,
-      playerUnderlyingCell: CellType.EMPTY,
+      playerUnderlyingCell: playerUnderlyingCell,
       hp: 20,
       hunger: 20,
       zombies,

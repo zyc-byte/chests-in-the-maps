@@ -24,23 +24,23 @@ const GameMessages: React.FC = () => {
   const getMessageColor = (type: string) => {
     switch (type) {
       case 'success':
-        return 'bg-green-600 border-green-700';
+        return 'bg-green-500/90 backdrop-blur-md border-green-400';
       case 'error':
-        return 'bg-red-600 border-red-700';
+        return 'bg-red-500/90 backdrop-blur-md border-red-400';
       case 'warning':
-        return 'bg-yellow-600 border-yellow-700';
+        return 'bg-yellow-500/90 backdrop-blur-md border-yellow-400';
       default:
-        return 'bg-blue-600 border-blue-700';
+        return 'bg-blue-500/90 backdrop-blur-md border-blue-400';
     }
   };
 
   return (
     <div className="fixed bottom-4 right-4 w-96 max-h-96 overflow-y-auto space-y-2 z-40">
-      <div className="flex justify-between items-center mb-2 bg-gray-800 px-4 py-2 rounded-t-lg border-2 border-gray-700">
-        <h3 className="text-white font-bold text-lg">📨 游戏消息</h3>
+      <div className="flex justify-between items-center mb-2 bg-white/90 backdrop-blur-md px-4 py-2 rounded-t-2xl border-2 border-gray-300">
+        <h3 className="text-gray-800 font-bold text-lg">📨 游戏消息</h3>
         <button
           onClick={clearMessages}
-          className="text-white/70 hover:text-white transition-colors bg-red-600/50 hover:bg-red-600 px-2 py-1 rounded"
+          className="text-gray-600 hover:text-gray-800 transition-colors bg-red-500/80 hover:bg-red-600/80 px-2 py-1 rounded-xl"
           title="清空消息"
         >
           <X className="w-4 h-4" />
@@ -49,7 +49,7 @@ const GameMessages: React.FC = () => {
       {messages.map((message) => (
         <div
           key={message.id}
-          className={`${getMessageColor(message.type)} text-white px-4 py-3 rounded-lg border-2 shadow-xl animate-slide-in font-semibold`}
+          className={`${getMessageColor(message.type)} text-white px-4 py-3 rounded-2xl border-2 shadow-xl animate-slide-in font-semibold`}
         >
           {message.text}
         </div>
