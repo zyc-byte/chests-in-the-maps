@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import { useGameStore } from '../store/gameStore';
-import { X } from 'lucide-react';
 
 const GameMessages: React.FC = () => {
-  const { messages, clearMessages, removeMessage } = useGameStore();
+  const { messages, removeMessage } = useGameStore();
 
   // 自动移除3秒前的消息
   useEffect(() => {
