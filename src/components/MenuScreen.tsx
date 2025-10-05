@@ -16,19 +16,19 @@ const MenuScreen: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 via-cyan-50 to-blue-100 flex items-center justify-center p-8">
+    <div className="min-h-screen bg-gradient-to-b from-indigo-700 via-purple-700 to-blue-800 flex items-center justify-center p-8">
       <div className="max-w-2xl w-full">
         {/* Title */}
         <div className="text-center mb-12 animate-pulse">
-          <h1 className="text-6xl font-bold text-blue-900 mb-4 drop-shadow-2xl" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.1)' }}>
+          <h1 className="text-6xl font-bold text-cyan-400 mb-4 drop-shadow-2xl" style={{ textShadow: '2px 2px 8px rgba(6,182,212,0.5)' }}>
             CHESTS IN THE MAPS
           </h1>
-          <p className="text-2xl text-cyan-700 italic">{randomSlogan}</p>
-          <p className="text-red-600 font-bold text-xl mt-2">勇闯下界 - Through the Nether</p>
+          <p className="text-2xl text-cyan-300 italic">{randomSlogan}</p>
+          <p className="text-red-400 font-bold text-xl mt-2">勇闯下界 - Through the Nether</p>
         </div>
 
-        {/* Game card */}
-        <div className="bg-white/70 backdrop-blur-md border-4 border-cyan-300 rounded-3xl p-8 shadow-2xl">
+            {/* Game card */}
+            <div className="bg-white/10 backdrop-blur-3xl rounded-3xl p-8 shadow-2xl">
           {!showSettings ? (
             <>
               <button
@@ -49,11 +49,11 @@ const MenuScreen: React.FC = () => {
             </>
           ) : (
             <>
-              <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">游戏设置</h2>
+              <h2 className="text-3xl font-bold text-gray-200 mb-6 text-center">游戏设置</h2>
 
               <div className="space-y-6 mb-6">
                 <div>
-                  <label className="block text-gray-800 text-lg font-semibold mb-3">
+                  <label className="block text-gray-200 text-lg font-semibold mb-3">
                     地图大小: {mapSize}x{mapSize}
                   </label>
                   <input
@@ -73,7 +73,7 @@ const MenuScreen: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="bg-blue-50/70 backdrop-blur-sm p-4 rounded-2xl border border-blue-200">
+                <div className="bg-white/15 backdrop-blur-lg p-4 rounded-2xl border border-white/30">
                   <label className="flex items-center cursor-pointer">
                     <input
                       type="checkbox"
@@ -81,7 +81,7 @@ const MenuScreen: React.FC = () => {
                       onChange={(e) => setIsCheatEnabled(e.target.checked)}
                       className="w-6 h-6 rounded bg-white border-gray-300 text-cyan-500 focus:ring-cyan-400 focus:ring-2 cursor-pointer"
                     />
-                    <span className="ml-3 text-gray-800 text-lg font-semibold">
+                    <span className="ml-3 text-gray-200 text-lg font-semibold">
                       启用作弊模式 (按"1"切换调试信息)
                     </span>
                   </label>

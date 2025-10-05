@@ -64,23 +64,23 @@ const CommandInput: React.FC<CommandInputProps> = ({ onClose }) => {
   ];
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-      <div className="bg-white/90 backdrop-blur-md border-4 border-cyan-400 rounded-3xl p-6 max-w-2xl w-full mx-4 shadow-2xl">
+    <div className="fixed inset-0 bg-black/40 backdrop-blur-md flex items-center justify-center z-50">
+      <div className="bg-white/10 backdrop-blur-3xl border-2 border-cyan-400/60 rounded-3xl p-6 max-w-2xl w-full mx-4 shadow-2xl">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold text-cyan-600 flex items-center gap-2">
+          <h2 className="text-2xl font-bold text-cyan-400 flex items-center gap-2">
             <Terminal className="w-6 h-6" />
             指令控制台
           </h2>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-800 transition-colors"
+            className="text-gray-400 hover:text-gray-200 transition-colors"
           >
             <X className="w-6 h-6" />
           </button>
         </div>
 
         {!isCheatEnabled && (
-          <div className="bg-yellow-100/70 backdrop-blur-sm border-2 border-yellow-400 text-yellow-800 px-4 py-2 rounded-2xl mb-4">
+          <div className="bg-yellow-400/20 backdrop-blur-lg border border-yellow-400/50 text-yellow-800 px-4 py-2 rounded-2xl mb-4">
             ⚠️ 作弊模式未启用！只能使用 /help 指令
           </div>
         )}
@@ -92,7 +92,7 @@ const CommandInput: React.FC<CommandInputProps> = ({ onClose }) => {
               value={command}
               onChange={handleInputChange}
               placeholder="/输入指令..."
-              className="flex-1 bg-white/80 text-gray-800 px-4 py-2 rounded-2xl border-2 border-gray-300 focus:border-cyan-500 outline-none"
+              className="flex-1 bg-white/10 backdrop-blur-lg text-gray-200 px-4 py-2 rounded-2xl border-2 border-white/40 focus:border-cyan-400 outline-none placeholder:text-gray-500"
               autoFocus
               onFocus={(e) => {
                 // 将光标移到末尾
@@ -109,14 +109,14 @@ const CommandInput: React.FC<CommandInputProps> = ({ onClose }) => {
           </div>
         </form>
 
-        <div className="bg-blue-50/70 backdrop-blur-sm rounded-2xl p-4 max-h-96 overflow-y-auto border border-blue-200">
+        <div className="bg-white/15 backdrop-blur-lg rounded-2xl p-4 max-h-96 overflow-y-auto border border-white/30">
           <h3 className="text-cyan-600 font-bold mb-3 flex items-center gap-2">
             <HelpCircle className="w-5 h-5" />
             常用指令
           </h3>
           <div className="space-y-2">
             {commonCommands.map((cmd, i) => (
-              <div key={i} className="bg-blue-100/70 rounded-xl p-2">
+              <div key={i} className="bg-white/20 backdrop-blur-md rounded-xl p-2">
                 <code className="text-green-600">{cmd.cmd}</code>
                 <p className="text-gray-700 text-sm mt-1">{cmd.desc}</p>
               </div>
@@ -126,7 +126,7 @@ const CommandInput: React.FC<CommandInputProps> = ({ onClose }) => {
           <h3 className="text-cyan-600 font-bold mt-4 mb-2">可用物品名称：</h3>
           <div className="flex flex-wrap gap-1">
             {itemNames.map((item) => (
-              <span key={item} className="bg-blue-100/70 text-xs text-gray-700 px-2 py-1 rounded-xl">
+              <span key={item} className="bg-white/20 backdrop-blur-md text-xs text-gray-700 px-2 py-1 rounded-xl">
                 {item}
               </span>
             ))}

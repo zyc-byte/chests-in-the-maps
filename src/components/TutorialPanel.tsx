@@ -17,22 +17,22 @@ const TutorialPanel: React.FC<TutorialPanelProps> = ({ onClose }) => {
   }, [onClose]);
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-      <div className="bg-white/90 backdrop-blur-md border-2 border-gray-300 rounded-3xl p-8 max-w-4xl w-full mx-4 shadow-2xl max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black/40 backdrop-blur-md flex items-center justify-center z-50">
+      <div className="bg-white/10 backdrop-blur-3xl border border-white/40 rounded-3xl p-8 max-w-4xl w-full mx-4 shadow-2xl max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-3xl font-bold text-gray-800">游戏教程</h2>
+          <h2 className="text-3xl font-bold text-gray-200">游戏教程</h2>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-800 transition-colors"
+            className="text-gray-400 hover:text-gray-200 transition-colors"
           >
             <X className="w-8 h-8" />
           </button>
         </div>
 
-        <div className="space-y-6 text-gray-800">
+        <div className="space-y-6 text-gray-200">
           <section>
-            <h3 className="text-2xl font-bold text-yellow-600 mb-3">1. 游戏画面</h3>
-            <div className="bg-blue-50/70 backdrop-blur-sm p-4 rounded-2xl space-y-2 border border-blue-200">
+            <h3 className="text-2xl font-bold text-yellow-400 mb-3">1. 游戏画面</h3>
+            <div className="bg-white/15 backdrop-blur-lg p-4 rounded-2xl space-y-2 border border-white/30">
               <p><strong>主世界:</strong></p>
               <ul className="list-disc list-inside ml-4 space-y-1 text-gray-600">
                 <li>浅色方块 = 泥土</li>
@@ -56,40 +56,40 @@ const TutorialPanel: React.FC<TutorialPanelProps> = ({ onClose }) => {
           </section>
 
           <section>
-            <h3 className="text-2xl font-bold text-yellow-600 mb-3">2. 操作方式</h3>
-            <div className="bg-blue-50/70 backdrop-blur-sm p-4 rounded-2xl border border-blue-200">
+            <h3 className="text-2xl font-bold text-yellow-400 mb-3">2. 操作方式</h3>
+            <div className="bg-white/15 backdrop-blur-lg p-4 rounded-2xl border border-white/30">
               <div className="grid grid-cols-2 gap-3">
-                <div className="bg-blue-100/70 p-3 rounded-xl">
-                  <strong className="text-yellow-700">W/A/S/D</strong> - 上/左/下/右移动
+                <div className="bg-white/20 backdrop-blur-md p-3 rounded-xl">
+                  <strong className="text-yellow-400">W/A/S/D</strong> - 上/左/下/右移动
                 </div>
-                <div className="bg-blue-100/70 p-3 rounded-xl">
-                  <strong className="text-yellow-700">O</strong> - 打开面前的箱子
+                <div className="bg-white/20 backdrop-blur-md p-3 rounded-xl">
+                  <strong className="text-yellow-400">O</strong> - 打开面前的箱子
                 </div>
-                <div className="bg-blue-100/70 p-3 rounded-xl">
-                  <strong className="text-yellow-700">K</strong> - 攻击周围怪物
+                <div className="bg-white/20 backdrop-blur-md p-3 rounded-xl">
+                  <strong className="text-yellow-400">K</strong> - 攻击周围怪物
                 </div>
-                <div className="bg-blue-100/70 p-3 rounded-xl">
-                  <strong className="text-yellow-700">E</strong> - 打开背包
+                <div className="bg-white/20 backdrop-blur-md p-3 rounded-xl">
+                  <strong className="text-yellow-400">E</strong> - 打开背包
                 </div>
-                <div className="bg-blue-100/70 p-3 rounded-xl">
-                  <strong className="text-yellow-700">U</strong> - 使用道具
+                <div className="bg-white/20 backdrop-blur-md p-3 rounded-xl">
+                  <strong className="text-yellow-400">U</strong> - 使用道具
                 </div>
-                <div className="bg-blue-100/70 p-3 rounded-xl">
-                  <strong className="text-yellow-700">Q</strong> - 吃东西
+                <div className="bg-white/20 backdrop-blur-md p-3 rounded-xl">
+                  <strong className="text-yellow-400">Q</strong> - 吃东西
                 </div>
-                <div className="bg-blue-100/70 p-3 rounded-xl">
-                  <strong className="text-yellow-700">T</strong> - 查看教程
+                <div className="bg-white/20 backdrop-blur-md p-3 rounded-xl">
+                  <strong className="text-yellow-400">T</strong> - 查看教程
                 </div>
-                <div className="bg-blue-100/70 p-3 rounded-xl">
-                  <strong className="text-yellow-700">R</strong> - 返回菜单
+                <div className="bg-white/20 backdrop-blur-md p-3 rounded-xl">
+                  <strong className="text-yellow-400">R</strong> - 返回菜单
                 </div>
               </div>
             </div>
           </section>
 
           <section>
-            <h3 className="text-2xl font-bold text-yellow-600 mb-3">3. 游戏目标</h3>
-            <div className="bg-blue-50/70 backdrop-blur-sm p-4 rounded-2xl space-y-2 text-gray-700 border border-blue-200">
+            <h3 className="text-2xl font-bold text-yellow-400 mb-3">3. 游戏目标</h3>
+            <div className="bg-white/15 backdrop-blur-lg p-4 rounded-2xl space-y-2 text-gray-700 border border-white/30">
               <p>• 探索地图，打开箱子获取资源</p>
               <p>• ⚠️ 小心怪物！僵尸会追击，骷髅会射箭</p>
               <p>• 击败僵尸和骷髅获得战利品</p>
@@ -102,8 +102,8 @@ const TutorialPanel: React.FC<TutorialPanelProps> = ({ onClose }) => {
           </section>
 
           <section>
-            <h3 className="text-2xl font-bold text-yellow-600 mb-3">4. 道具说明</h3>
-            <div className="bg-blue-50/70 backdrop-blur-sm p-4 rounded-2xl space-y-2 text-gray-700 border border-blue-200">
+            <h3 className="text-2xl font-bold text-yellow-400 mb-3">4. 道具说明</h3>
+            <div className="bg-white/15 backdrop-blur-lg p-4 rounded-2xl space-y-2 text-gray-700 border border-white/30">
               <p><strong className="text-yellow-700">末影珍珠:</strong> 传送至附近9x9范围内</p>
               <p><strong className="text-yellow-700">治疗药水:</strong> 恢复至满血</p>
               <p><strong className="text-yellow-700">喷溅型伤害药水:</strong> 对5x5范围内的怪物造成伤害</p>

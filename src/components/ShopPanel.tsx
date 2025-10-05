@@ -47,25 +47,25 @@ const ShopPanel: React.FC<ShopPanelProps> = ({ onClose, isVictoryShop = false })
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-      <div className={`bg-white/90 backdrop-blur-md border-4 ${isVictoryShop ? 'border-yellow-400' : 'border-gray-300'} rounded-3xl p-8 ${isVictoryShop ? 'max-w-5xl h-screen overflow-y-auto' : 'max-w-3xl'} w-full mx-4 shadow-2xl`}>
+    <div className="fixed inset-0 bg-black/40 backdrop-blur-md flex items-center justify-center z-50">
+      <div className={`bg-white/10 backdrop-blur-3xl border-2 ${isVictoryShop ? 'border-yellow-400/60' : 'border-white/40'} rounded-3xl p-8 ${isVictoryShop ? 'max-w-5xl h-screen overflow-y-auto' : 'max-w-3xl'} w-full mx-4 shadow-2xl`}>
         <div className="flex justify-between items-center mb-6">
-          <h2 className={`text-3xl font-bold ${isVictoryShop ? 'text-yellow-600' : 'text-gray-800'}`}>
+          <h2 className={`text-3xl font-bold ${isVictoryShop ? 'text-yellow-400' : 'text-gray-200'}`}>
             {isVictoryShop ? '🎉 恭喜通关！商店' : '商店'}
           </h2>
           {!isVictoryShop && onClose && (
             <button
               onClick={onClose}
-              className="text-gray-500 hover:text-gray-800 transition-colors"
+              className="text-gray-400 hover:text-gray-200 transition-colors"
             >
               <X className="w-8 h-8" />
             </button>
           )}
         </div>
 
-        <div className="mb-6 bg-yellow-50/70 backdrop-blur-sm p-4 rounded-2xl flex items-center gap-3 border border-yellow-200">
+        <div className="mb-6 bg-yellow-400/20 backdrop-blur-lg p-4 rounded-2xl flex items-center gap-3 border border-yellow-400/40">
           <DollarSign className="w-6 h-6 text-yellow-600" />
-          <span className="text-gray-800 text-lg">当前金钱: </span>
+          <span className="text-gray-200 text-lg">当前金钱: </span>
           <span className="text-yellow-600 text-xl font-bold">${money.toLocaleString()}</span>
         </div>
 
@@ -75,7 +75,7 @@ const ShopPanel: React.FC<ShopPanelProps> = ({ onClose, isVictoryShop = false })
             className={`flex-1 py-3 px-6 rounded-2xl font-bold transition-all ${
               selectedAction === 'buy'
                 ? 'bg-green-500/80 backdrop-blur-md text-white shadow-lg'
-                : 'bg-gray-200/70 text-gray-600 hover:bg-gray-300/70'
+                : 'bg-white/20 backdrop-blur-md text-gray-700 hover:bg-white/30'
             }`}
           >
             <ShoppingCart className="w-5 h-5 inline mr-2" />
@@ -86,7 +86,7 @@ const ShopPanel: React.FC<ShopPanelProps> = ({ onClose, isVictoryShop = false })
             className={`flex-1 py-3 px-6 rounded-2xl font-bold transition-all ${
               selectedAction === 'sell'
                 ? 'bg-blue-500/80 backdrop-blur-md text-white shadow-lg'
-                : 'bg-gray-200/70 text-gray-600 hover:bg-gray-300/70'
+                : 'bg-white/20 backdrop-blur-md text-gray-700 hover:bg-white/30'
             }`}
           >
             <DollarSign className="w-5 h-5 inline mr-2" />
@@ -99,12 +99,12 @@ const ShopPanel: React.FC<ShopPanelProps> = ({ onClose, isVictoryShop = false })
             {shopItems.map((item) => (
               <div
                 key={item.key}
-                className="bg-blue-50/70 backdrop-blur-sm border-2 border-blue-200 rounded-2xl p-4 hover:bg-blue-100/70 transition-colors"
+                className="bg-white/15 backdrop-blur-lg border border-white/30 rounded-2xl p-4 hover:bg-white/25 transition-colors"
               >
                 <div className="flex justify-between items-start mb-2">
                   <div>
-                    <h3 className="text-gray-800 font-bold text-lg">{item.label}</h3>
-                    <p className="text-gray-600 text-sm">{item.description}</p>
+                    <h3 className="text-gray-200 font-bold text-lg">{item.label}</h3>
+                    <p className="text-gray-400 text-sm">{item.description}</p>
                   </div>
                   <span className="text-yellow-600 font-bold text-xl">${item.price.toLocaleString()}</span>
                 </div>
@@ -126,8 +126,8 @@ const ShopPanel: React.FC<ShopPanelProps> = ({ onClose, isVictoryShop = false })
             ))}
           </div>
         ) : (
-          <div className="bg-blue-50/70 backdrop-blur-sm border-2 border-blue-200 rounded-2xl p-6 text-center">
-            <p className="text-gray-800 mb-4 text-lg">
+          <div className="bg-white/15 backdrop-blur-lg border border-white/30 rounded-2xl p-6 text-center">
+            <p className="text-gray-200 mb-4 text-lg">
               出售所有资源 (圆石、煤炭、铁锥、金锥、红石、青金石、绿宝石、钻石、下界石英、萤石)
             </p>
             <button

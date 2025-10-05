@@ -401,11 +401,9 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
           
           if (zombies[zombieIndex].hp === 2) {
             overworldMap[targetX][targetY] = CellType.ZOMBIE_2HP;
-            get().addMessage('攻击僵尸！剩余2点生命', 'info');
           }
           else if (zombies[zombieIndex].hp === 1) {
             overworldMap[targetX][targetY] = CellType.ZOMBIE_1HP;
-            get().addMessage('攻击僵尸！剩余1点生命', 'info');
           }
           else if (zombies[zombieIndex].hp <= 0) {
             overworldMap[targetX][targetY] = CellType.EMPTY;
@@ -423,11 +421,9 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
           
           if (skeletons[skeletonIndex].hp === 2) {
             overworldMap[targetX][targetY] = CellType.SKELETON_2HP;
-            get().addMessage('攻击骷髅！剩余2点生命', 'info');
           }
           else if (skeletons[skeletonIndex].hp === 1) {
             overworldMap[targetX][targetY] = CellType.SKELETON_1HP;
-            get().addMessage('攻击骷髅！剩余1点生命', 'info');
           }
           else if (skeletons[skeletonIndex].hp <= 0) {
             overworldMap[targetX][targetY] = CellType.EMPTY;
@@ -600,7 +596,8 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
     netherMap[1][1] = NetherCellType.NETHER_DOOR;
     netherMap[mid][mid] = NetherCellType.NETHER_CHEST;
     
-    // Place player
+    // Place player at (1,2) and record underlying cell
+    const playerUnderlyingCell = netherMap[1][2];
     netherMap[1][2] = NetherCellType.NETHER_PLAYER;
     
     // Generate lava zombies
@@ -621,6 +618,7 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
       netherMap,
       lavaZombies,
       playerPos: { x: 1, y: 2 },
+      playerUnderlyingCell,
       biome: Biome.NETHER,
       currentScreen: 'nether',
       overworldMap, // 保存清理后的主世界地图
@@ -631,31 +629,32 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
     const state = get();
     const { netherMap, playerPos: netherPos } = state;
     
-    // 清理下界玩家位置，不留下遗体
-    const mid = state.mapSize % 2 === 0 ? state.mapSize / 2 : (state.mapSize + 1) / 2;
-    const isInFortress = (netherPos.x >= mid - 1 && netherPos.x <= mid + 1) || 
-                         (netherPos.y >= mid - 1 && netherPos.y <= mid + 1);
-    netherMap[netherPos.x][netherPos.y] = isInFortress ? NetherCellType.NETHER_BRICK : NetherCellType.NETHERRACK;
+    // 清理下界玩家位置，恢复底层方块
+    netherMap[netherPos.x][netherPos.y] = state.playerUnderlyingCell as NetherCellType;
     
-    // 从下界返回时，直接进入下一关
-    set({ netherMap });
-    get().addMessage('从下界返回，进入下一关！', 'success');
-    get().nextLevel();
+    // 从下界返回时，显示商店，然后进入下一关
+    set({ 
+      netherMap,
+      currentScreen: 'game', // 返回主世界画面，显示商店
+      biome: Biome.OVERWORLD,
+    });
+    get().addMessage('从下界返回，通关成功！', 'success');
+    // 商店将由GameScreen的showShop状态控制
   },
 
   updateStep: () => {
     const state = get();
-    const { step, hunger, hp } = state;
+    const { step, hunger, hp, maxHp } = state;
+    
+    // Regenerate health when hunger is full (every tick)
+    if (hunger === 20 && hp < maxHp) {
+      set({ hp: Math.min(maxHp, hp + 1) });
+    }
     
     // Update hunger every 10 steps
     if (step > 0 && step % 10 === 0 && hunger > 0) {
       const newHunger = hunger - 1;
       set({ hunger: newHunger });
-      
-      // Regenerate health when full
-      if (hunger === 20 && hp < 20) {
-        set({ hp: Math.min(20, hp + 1) });
-      }
       
       // Take damage when starving
       if (newHunger === 0) {
@@ -1064,7 +1063,7 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
         for (const dir of directions) {
           if (playerPos.x === zombie.x + dir.x && playerPos.y === zombie.y + dir.y) {
             newHp -= 2;
-            get().addMessage(`被僵尸攻击！生命值 -2`, 'error');
+            get().addMessage(`被僵尸攻击！`, 'error');
             break;
           }
         }
@@ -1077,7 +1076,7 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
         for (const dir of directions) {
           if (playerPos.x === lavaZombie.x + dir.x && playerPos.y === lavaZombie.y + dir.y) {
             newHp -= 2;
-            get().addMessage(`被熔岩僵尸攻击！生命值 -2`, 'error');
+            get().addMessage(`被熔岩僵尸攻击！`, 'error');
             break;
           }
         }
@@ -1143,7 +1142,7 @@ export const useGameStore = create<GameState & GameActions>((set, get) => ({
         const currentHp = get().hp;
         const newHp = currentHp - 1;
         set({ hp: newHp });
-        get().addMessage(`被箭矢击中！生命值 -1`, 'error');
+        get().addMessage(`被箭矢击中！`, 'error');
         
         // 检查是否死亡
         if (newHp <= 0) {

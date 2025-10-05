@@ -16,17 +16,17 @@ const DeathScreen: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-red-100 to-red-200 flex items-center justify-center p-8">
+    <div className="min-h-screen bg-gradient-to-b from-red-700 via-purple-800 to-red-700 flex items-center justify-center p-8">
       <div className="max-w-2xl w-full text-center">
         <div className="mb-8 animate-bounce">
           <Skull className="w-32 h-32 text-red-600 mx-auto" />
         </div>
 
-        <h1 className="text-6xl font-bold text-red-700 mb-8 drop-shadow-2xl">你死了！</h1>
+        <h1 className="text-6xl font-bold text-red-400 mb-8 drop-shadow-2xl">你死了！</h1>
 
-        <div className="bg-white/80 backdrop-blur-md border-4 border-red-400 rounded-3xl p-8 mb-8 shadow-2xl">
-          <p className="text-gray-600 text-lg mb-2">死亡信息:</p>
-          <p className="text-gray-800 text-2xl font-semibold">{deathMessage}</p>
+        <div className="bg-white/10 backdrop-blur-3xl border-2 border-red-400/60 rounded-3xl p-8 mb-8 shadow-2xl">
+          <p className="text-gray-400 text-lg mb-2">死亡信息:</p>
+          <p className="text-gray-200 text-2xl font-semibold">{deathMessage}</p>
         </div>
 
         <div className="space-y-4">
