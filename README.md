@@ -29,7 +29,7 @@
 
 ### 前置要求
 
-- Node.js 16+ 
+- Node.js 18+ 
 - npm 或 yarn
 
 ### 安装依赖
@@ -44,7 +44,7 @@ npm install
 npm run dev
 ```
 
-游戏将在 `http://localhost:3000` 启动
+游戏将在 `http://localhost:5173` 启动
 
 ### 构建生产版本
 
@@ -57,6 +57,76 @@ npm run build
 ```bash
 npm run preview
 ```
+
+## 🚀 部署
+
+本项目支持多种部署平台，详细说明请查看 [DEPLOYMENT.md](./DEPLOYMENT.md)
+
+### 快速部署
+
+#### Vercel（推荐）
+```bash
+npm install -g vercel
+vercel --prod
+```
+
+#### Cloudflare Pages（无限流量）
+```bash
+npm install -g wrangler
+npm run deploy:cf
+```
+
+#### Netlify
+```bash
+npm install -g netlify-cli
+netlify deploy --prod
+```
+
+#### GitHub Pages（推荐使用 GitHub Actions）
+
+**方式 1: GitHub Actions 自动部署**
+1. 在仓库 Settings → Pages 选择 "GitHub Actions"
+2. 推送代码自动部署（已配置 `.github/workflows/deploy-gh-pages.yml`）
+
+**方式 2: CLI 手动部署**
+```bash
+npm install -D gh-pages
+# 在 package.json 添加 homepage 字段
+npm run deploy:gh
+```
+
+### 可用的部署脚本
+
+```bash
+npm run deploy              # Vercel 生产部署（默认）
+npm run deploy:vercel       # Vercel 生产部署
+npm run deploy:vercel:preview  # Vercel 预览部署
+npm run deploy:cf           # Cloudflare Pages 部署
+npm run deploy:gh           # GitHub Pages 部署（CLI）
+npm run deploy:netlify      # Netlify 生产部署
+npm run deploy:netlify:preview # Netlify 预览部署
+```
+
+### GitHub Actions 自动部署
+
+本项目已配置 GitHub Actions，支持自动部署到：
+- ✅ **GitHub Pages** - 推送到 main 分支自动部署
+- ✅ **Cloudflare Pages** - 需配置 Secrets 后自动部署
+
+**优势**：
+- 🤖 完全自动化，推送代码即部署
+- ☁️ 云端构建，不占用本地资源
+- 📊 可视化日志，部署状态一目了然
+- 🆓 公开仓库完全免费
+
+### 推荐平台
+
+| 平台 | 免费流量 | 特点 | 适用场景 |
+|------|----------|------|----------|
+| **Cloudflare Pages** | ♾️ 无限 | 全球 CDN，国内访问好 | ⭐ 首选 |
+| **Vercel** | 100GB/月 | 最佳体验，功能最强 | ⭐ 推荐 |
+| **Netlify** | 100GB/月 | 功能全面，生态成熟 | ✅ 可选 |
+| **GitHub Pages** | ♾️ 无限 | 永久免费，稳定可靠 | ✅ 备选 |
 
 ## 🎯 游戏玩法
 
