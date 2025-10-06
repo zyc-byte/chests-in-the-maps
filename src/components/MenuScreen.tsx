@@ -100,8 +100,8 @@ const MenuScreen: React.FC = () => {
 
         {/* Footer */}
         <div className="text-center mt-8 text-gray-700">
-          <p className="text-sm opacity-75">Made By hezhibao | Canary Version Made By ZycNotFound</p>
-          <p className="text-sm opacity-75 mt-1">Modern Web Version - Alpha 1.0.0</p>
+          <p className="text-sm opacity-75">Release By hezhibao | Canary Version Made By ZycNotFound</p>
+          <p className="text-sm opacity-75 mt-1">Canary Version - New 1.0.0</p>
         </div>
       </div>
     </div>
