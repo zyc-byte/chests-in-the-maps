@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A modern web-based dungeon exploration game inspired by Minecraft",
   "type": "module",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
